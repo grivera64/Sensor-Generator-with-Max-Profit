@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="JavaFX-17.0.0.1" level="application" />
+    <orderEntry type="library" exported="" name="ortools-java-9.5.2237-sources" level="application" />
+    <orderEntry type="library" exported="" name="jna-5.13.0" level="application" />
+    <orderEntry type="library" exported="" name="protobuf-java-4.0.0-rc-2" level="application" />
+  </component>
+</module>
