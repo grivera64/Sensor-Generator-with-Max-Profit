@@ -98,13 +98,18 @@ public class SensorToFlowNetworkMain extends Application {
         int storageCount = keyboard.nextInt();
         keyboard.nextLine();
 
-        System.out.println("Please enter the maximum value of any data packet (V):");
-        System.out.print("V = ");
+        System.out.println("Please enter the minimum value of any data packet (Vl):");
+        System.out.print("Vl = ");
+        int minValue = keyboard.nextInt();
+        keyboard.nextLine();
+
+        System.out.println("Please enter the maximum value of any data packet (Vh):");
+        System.out.print("Vh = ");
         int maxValue = keyboard.nextInt();
         keyboard.nextLine();
         System.out.println();
 
-        return SensorNetwork.of(width, height, nodeCount, transmissionRange, gNodeCount, packetsCount, storageCount, maxValue);
+        return SensorNetwork.of(width, height, nodeCount, transmissionRange, gNodeCount, packetsCount, storageCount, minValue, maxValue);
     }
 
     /**

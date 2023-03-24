@@ -41,9 +41,10 @@ public class SensorNetwork implements Network {
      * @param p  the number of Data Nodes in the network
      * @param q  the number of data packets each Data Node has
      * @param m  the storage capacity each Storage nodes has
-     * @param V the maximum value of a data packet
+     * @param Vl the minimum value of a data packet (inclusive)
+     * @param Vh the maximum value of a data packet (inclusive)
      */
-    public SensorNetwork(double x, double y, int N, double tr, int p, int q, int m, int V) {
+    public SensorNetwork(double x, double y, int N, double tr, int p, int q, int m, int Vl, int Vh) {
         this.width = x;
         this.length = y;
         this.dataPacketCount = q;
@@ -57,7 +58,7 @@ public class SensorNetwork implements Network {
         /*
          * Init the Sensor com.grivera.generator.Network to allow basic operations on it
          */
-        this.nodes = this.initNodes(N, p, V);
+        this.nodes = this.initNodes(N, p, Vl, Vh);
         this.graph = this.initGraph(this.nodes);
     }
 
@@ -163,11 +164,11 @@ public class SensorNetwork implements Network {
         }
     }
 
-    public static SensorNetwork of(double x, double y, int N, double tr, int p, int q, int m, int V) {
+    public static SensorNetwork of(double x, double y, int N, double tr, int p, int q, int m, int Vl, int Vh) {
         SensorNetwork network;
         int attempts = 0;
         do {
-            network = new SensorNetwork(x, y, N, tr, p, q, m, V);
+            network = new SensorNetwork(x, y, N, tr, p, q, m, Vl, Vh);
 
             /* Checks if the parameters in the program are feasible */
             if (!network.isFeasible()) {
@@ -204,7 +205,7 @@ public class SensorNetwork implements Network {
         return sn;
     }
 
-    private List<SensorNode> initNodes(int nodeCount, int p, int V) {
+    private List<SensorNode> initNodes(int nodeCount, int p, int Vl, int Vh) {
         List<SensorNode> nodes = new ArrayList<>(nodeCount);
         Random rand = new Random();
 
@@ -225,7 +226,7 @@ public class SensorNetwork implements Network {
 
             tmpVals = new ArrayList<>();
             for (int i = 0; i < this.dataPacketCount; i++) {
-                tmpVals.add(rand.nextInt(V) + 1);
+                tmpVals.add(rand.nextInt(Vh - Vl + 1) + Vl);
             }
 
             if ((choice < 5 && p > 0) || nodeCount - index <= p) {
@@ -459,22 +460,25 @@ public class SensorNetwork implements Network {
 
             /* Path from Source to DN is always 0 cost (not represented in the network) */
             for (DataNode dn : this.dNodes) {
+                writer.printf("c Source -> %s's packets (%d - %d)\n", dn.getName(), dn.getUuid(), dn.getUuid() + dn.getOverflowPackets() - 1);
                 for (int dataPacketIndex = 0; dataPacketIndex < dn.getOverflowPackets(); dataPacketIndex++) {
                     writer.printf("a %d %d %d %d %d\n", 0, dn.getUuid() + dataPacketIndex, 0, 1, 0);
                 }
             }
 
             /* Find all paths from Data Packet -> SN#, Dummy */
-            List<SensorNode> path;
+            int profit;
             for (DataNode dn : this.dNodes) {
-                writer.printf("c Packets from %s (%d - %d)\n", dn.getName(), dn.getUuid(), dn.getUuid() + dn.getOverflowPackets() - 1);
                 for (StorageNode sn : this.sNodes) {
+                    writer.printf("c Packets from %s's packets (%d - %d) to %s\n", dn.getName(), dn.getUuid(), dn.getUuid() + dn.getOverflowPackets() - 1, sn.getName());
                     for (int dataPacketIndex = 0; dataPacketIndex < dn.getOverflowPackets(); dataPacketIndex++) {
+                        profit = this.calculateProfitOf(dn, sn, dataPacketIndex);
                         writer.printf("a %d %d %d %d %d\n", dn.getUuid() + dataPacketIndex, sn.getUuid(),
-                                0, 1, -this.calculateProfitOf(dn, sn, dataPacketIndex)
+                                0, 1, -profit
                         );
                     }
                 }
+                writer.printf("c Packets from %s's packets (%d - %d) to Dummy Node\n", dn.getName(), dn.getUuid(), dn.getUuid() + dn.getOverflowPackets() - 1);
                 for (int dataPacketIndex = 0; dataPacketIndex < dn.getOverflowPackets(); dataPacketIndex++) {
                     writer.printf("a %d %d %d %d %d\n", dn.getUuid() + dataPacketIndex, totalNodes - 2,
                             0, 1, 0);
@@ -482,10 +486,12 @@ public class SensorNetwork implements Network {
             }
 
             /* Path from SN, Dummy -> Sink is always 0 cost (not represented in the network) */
+            writer.println("c SNs to Sink");
             for (SensorNode sn : this.sNodes) {
                 writer.printf("a %d %d %d %d %d\n",
                         sn.getUuid(), totalNodes - 1, 0, this.storageCapacity, 0);
             }
+            writer.println("c Dummy to Sink");
             writer.printf("a %d %d %d %d %d\n", totalNodes - 2, totalNodes - 1,
                     0, this.dataPacketCount * this.dNodes.size(), 0);
             System.out.printf("Saved flow network in file \"%s\"!\n", fileName);
