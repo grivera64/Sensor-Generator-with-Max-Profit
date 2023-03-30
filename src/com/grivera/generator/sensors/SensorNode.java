@@ -7,7 +7,7 @@ public abstract class SensorNode {
 
     private static int uuidCounter = 1;
 
-    protected static final int BITS_PER_PACKET = 3200;
+    protected static int BITS_PER_PACKET = 3200;
     protected static final double E_elec = 100e-9;
     protected static final double E_amp = 100e-12;
 
@@ -15,18 +15,13 @@ public abstract class SensorNode {
     private final double x, y, tr;
     private String name;
 
-    public SensorNode(double x, double y, double tr, String name, int uuidDiff) {
+    public SensorNode(double x, double y, double tr, String name) {
         this.x = x;
         this.y = y;
         this.tr = tr;
         this.name = name;
-        this.setUuid(uuidDiff);
-    }
-
-    private void setUuid(int uuidDiff) {
         this.uuid = uuidCounter;
-
-        uuidCounter += uuidDiff;
+        uuidCounter++;
     }
 
     public double getX() {
@@ -109,6 +104,14 @@ public abstract class SensorNode {
 
     public static void resetCounter() {
         uuidCounter = 1;
+    }
+
+    public static int getBitsPerPacket() {
+        return BITS_PER_PACKET;
+    }
+
+    public static void setBitsPerPacket(int bitsPerPacket) {
+        BITS_PER_PACKET = bitsPerPacket;
     }
 
     public abstract void resetPackets();

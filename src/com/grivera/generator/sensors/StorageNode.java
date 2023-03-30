@@ -14,7 +14,7 @@ public class StorageNode extends SensorNode {
     private int usedSpace;
 
     public StorageNode(double x, double y, double tr, int capacity) {
-        super(x, y, tr, String.format("SN%02d", idCounter++), 1);
+        super(x, y, tr, String.format("SN%02d", idCounter++));
         this.setCapacity(capacity);
     }
 

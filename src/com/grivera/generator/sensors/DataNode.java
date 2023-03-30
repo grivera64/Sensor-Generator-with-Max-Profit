@@ -1,8 +1,5 @@
 package com.grivera.generator.sensors;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Represents a Sensor Node in a com.grivera.generator.Network that has overflow data packets to store.
  *
@@ -12,13 +9,13 @@ public class DataNode extends SensorNode {
 
     private static int idCounter = 1;
     private int overflowPackets;
-    private List<Integer> overflowPacketValues;
+    private int overflowPacketsValue;
     private int packetsLeft;
 
-    public DataNode(double x, double y, double tr, int overflowPackets, List<Integer> overflowPacketValues) {
-        super(x, y, tr, String.format("DN%02d", idCounter++), overflowPackets);
+    public DataNode(double x, double y, double tr, int overflowPackets, int overflowPacketsValue) {
+        super(x, y, tr, String.format("DN%02d", idCounter++));
         this.setOverflowPackets(overflowPackets);
-        this.overflowPacketValues = new ArrayList<>(overflowPacketValues);
+        this.overflowPacketsValue = overflowPacketsValue;
     }
 
     public void setOverflowPackets(int overflowPackets) {
@@ -63,8 +60,8 @@ public class DataNode extends SensorNode {
         return 0;
     }
 
-    public int getOverflowPacketValue(int packetIndex) {
-        return this.overflowPacketValues.get(packetIndex);
+    public int getOverflowPacketValue() {
+        return this.overflowPacketsValue;
     }
 
     public static void resetCounter() {

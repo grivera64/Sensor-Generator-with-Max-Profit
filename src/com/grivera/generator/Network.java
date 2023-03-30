@@ -30,5 +30,5 @@ public interface Network {
     boolean canSendPackets(DataNode dn, StorageNode sn, int packets);
     void sendPackets(DataNode dn, StorageNode sn, int packets);
     void resetPackets();
-    int calculateProfitOf(DataNode from, StorageNode to, int packetIndex);
+    int calculateProfitOf(DataNode from, StorageNode to);
 }
