@@ -44,6 +44,7 @@ public class SensorToFlowNetworkMain extends Application {
 
         prettyPrint(network.getDataNodes(), "Generator Nodes   Coordinates");
         prettyPrint(network.getStorageNodes(), "Storage Nodes    Coordinates");
+        prettyPrint(network.getTransitionNodes(), "Transition Nodes Coordinates");
 
         System.out.printf("Network is connected: %b\n", network.isConnected());
         System.out.printf("Network is feasible: %b\n", network.isFeasible());
@@ -93,6 +94,11 @@ public class SensorToFlowNetworkMain extends Application {
         int packetsCount = keyboard.nextInt();
         keyboard.nextLine();
 
+        System.out.println("Please enter the number of Storage Nodes (s) to generate:");
+        System.out.print("s = ");
+        int sNodeCount = keyboard.nextInt();
+        keyboard.nextLine();
+
         System.out.println("Please enter the amount of packets (m) each Storage Node has:");
         System.out.print("m = ");
         int storageCount = keyboard.nextInt();
@@ -109,7 +115,7 @@ public class SensorToFlowNetworkMain extends Application {
         keyboard.nextLine();
         System.out.println();
 
-        return SensorNetwork.of(width, height, nodeCount, transmissionRange, gNodeCount, packetsCount, storageCount, minValue, maxValue);
+        return SensorNetwork.of(width, height, nodeCount, transmissionRange, gNodeCount, packetsCount, sNodeCount, storageCount, minValue, maxValue);
     }
 
     /**
