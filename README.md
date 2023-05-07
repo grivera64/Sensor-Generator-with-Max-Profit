@@ -1,7 +1,7 @@
 # Sensor-Generator-with-Max-Profit
 
 ---
-Sensor Network generator visualizer for CS2 Min-Cost Flow input for Max Profit.
+Sensor Network generator visualizer for CS2 Min-Cost Flow input for maximizing profit in data preservation.
 
 ## Table of Contents
 
@@ -205,6 +205,14 @@ a 7 11 0 2 0
 ## Related Projects
 
 ---
+- Max Profit Data Preservation Simulation ([grivera64/Max-Profit-Data-Preservation-Simulation](https://github.com/grivera64/Max-Profit-Data-Preservation-Simulation))
+  - A simulation for testing data preservation of base station-less networks (BSNs) with the goal of maximizing profit.
+  - By Giovanni Rivera ([@grivera64](https://github.com/grivera64)) & Christopher Gonzalez ([@chrisagonza97](https://github.com/chrisagonza97))
+
+- Sensor Generator with MCF ([grivera64/Sensor-Generator-with-MCF](https://github.com/grivera64/Sensor-Generator-with-MCF))
+  - Sensor Network generator and visualizer for CS2 Min-Cost Flow input.
+  - By Giovanni Rivera ([@grivera64](https://github.com/grivera64))
+
 - Data Preservation Simulation ([grivera64/Data-Preservation-Simulation](https://github.com/grivera64/Data-Preservation-Simulation))
   - A simulation for testing data preservation of base station-less networks (BSNs).
   - By Giovanni Rivera ([@grivera64](https://github.com/grivera64))
