@@ -15,10 +15,19 @@ import java.util.Set;
 public interface Network {
     double getWidth();
     double getLength();
+
+    int getDataPacketCount();
+
+    int getStorageCapacity();
+
     List<SensorNode> getSensorNodes();
+    int getSensorNodeCount();
     List<DataNode> getDataNodes();
+    int getDataNodeCount();
     List<StorageNode> getStorageNodes();
+    int getStorageNodeCount();
     List<TransitionNode> getTransitionNodes();
+    int getTransitionNodeCount();
 
     /**
      * Tests whether all the nodes are directly or indirectly connected with each
@@ -82,4 +91,8 @@ public interface Network {
     void sendPackets(DataNode dn, StorageNode sn, int packets);
     void resetPackets();
     int calculateProfitOf(DataNode from, StorageNode to);
+    SensorNode getSensorNodeByUuid(int uuid);
+    DataNode getDataNodeById(int id);
+    StorageNode getStorageNodeById(int id);
+    TransitionNode getTransitionNodeById(int id);
 }
